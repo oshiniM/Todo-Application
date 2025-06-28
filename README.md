@@ -1,6 +1,6 @@
 # ✅ ToDo Application – Full-Stack Productivity App
 
-A full-featured ToDo app with user authentication, CRUD operations for tasks, and task status tracking. Designed to help users manage tasks efficiently with a modern, responsive UI.
+A full-featured ToDo application with user authentication, CRUD operations for tasks, and task status tracking. Designed to help users manage tasks efficiently with a modern, responsive UI.
 
 ## 🚀 Features
 
@@ -9,7 +9,7 @@ A full-featured ToDo app with user authentication, CRUD operations for tasks, an
 - 📌 **Task Status Tracking** – Mark tasks as pending or completed.
 - 📱 **Responsive UI** – Built with Tailwind CSS for a sleek design.
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack 
 
 - **Backend**: ASP.NET Core Web API, Entity Framework, SQL Server
 - **Frontend**: React, TypeScript, Tailwind CSS, Axios, React Router
