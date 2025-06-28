@@ -1,0 +1,275 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --circuit-color: rgba(99, 102, 241, 0.1);
+  --grid-color: rgba(99, 102, 241, 0.05);
+}
+
+body {
+  @apply bg-gray-50 text-gray-900 dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 dark:text-gray-100;
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+.video-background {
+  @apply fixed inset-0 w-full h-full object-cover opacity-15 pointer-events-none;
+  z-index: -2;
+  filter: saturate(1.2) contrast(1.1);
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.video-overlay {
+  @apply fixed inset-0;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
+  z-index: -1;
+}
+
+.circuit-pattern {
+  @apply fixed inset-0 pointer-events-none;
+  z-index: -1;
+  background-image: 
+    linear-gradient(to right, var(--circuit-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--circuit-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
+  animation: circuitMove 20s linear infinite;
+}
+
+.robot-grid {
+  @apply fixed inset-0 pointer-events-none;
+  z-index: -1;
+  background: 
+    linear-gradient(90deg, var(--grid-color) 2px, transparent 2px) 0 0,
+    linear-gradient(0deg, var(--grid-color) 2px, transparent 2px) 0 0;
+  background-size: 40px 40px;
+  animation: gridRotate 40s linear infinite;
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 
+           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 
+           active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100
+           backdrop-blur-sm;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary via-primary to-primary-dark text-white 
+           shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:from-primary-light hover:to-primary
+           relative overflow-hidden;
+  }
+
+  .btn-primary::after {
+    content: '';
+    @apply absolute inset-0 bg-white opacity-0;
+    animation: buttonGlow 2s ease-in-out infinite;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200/80 hover:bg-gray-300/80 text-gray-700
+           dark:bg-gray-700/80 dark:hover:bg-gray-600/80 dark:text-white shadow-md hover:shadow-gray-600/30;
+  }
+
+  .input {
+    @apply bg-gray-100/50 border border-gray-300 text-gray-900
+           dark:bg-gray-800/50 dark:border-gray-700 dark:text-gray-100
+           backdrop-blur-sm rounded-xl px-4 py-2 
+           focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent
+           transition-all duration-300 hover:bg-gray-200/50 dark:hover:bg-gray-800/70 
+           placeholder-gray-500 shadow-inner hover:shadow-lg;
+  }
+
+  .card {
+    @apply bg-white/40 dark:bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-xl 
+           border border-gray-200/50 dark:border-gray-700/50
+           transition-all duration-300 hover:shadow-2xl 
+           hover:border-gray-300/50 dark:hover:border-gray-600/50
+           hover:bg-white/50 dark:hover:bg-gray-800/50 hover:shadow-primary/5
+           relative overflow-hidden;
+  }
+
+  .card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent;
+    animation: cardShimmer 2s infinite linear;
+    transform: translateX(-100%);
+  }
+
+  .glass-effect {
+    @apply bg-white/40 dark:bg-gray-800/40 backdrop-blur-xl 
+           border border-gray-200/50 dark:border-gray-700/50 rounded-2xl
+           transition-all duration-300 
+           hover:bg-white/50 dark:hover:bg-gray-800/50 
+           hover:border-gray-300/50 dark:hover:border-gray-600/50
+           shadow-lg hover:shadow-xl;
+  }
+
+  .floating {
+    animation: floating 3s ease-in-out infinite;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary-light via-primary to-primary-dark bg-clip-text text-transparent;
+    animation: textGradient 8s linear infinite;
+  }
+
+  .gradient-border {
+    position: relative;
+  }
+
+  .gradient-border::before {
+    content: '';
+    @apply absolute inset-0 rounded-2xl p-[1px];
+    background: linear-gradient(to right, theme('colors.primary.light'), theme('colors.primary.dark'));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: borderRotate 4s linear infinite;
+  }
+}
+
+/* Animations */
+@keyframes floating {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes ripple {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes circuitMove {
+  0% { transform: translateX(0) translateY(0); }
+  100% { transform: translateX(50px) translateY(50px); }
+}
+
+@keyframes gridRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes buttonGlow {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.1; }
+}
+
+@keyframes cardShimmer {
+  100% { transform: translateX(100%); }
+}
+
+@keyframes textGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes borderRotate {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.5s ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+.ripple {
+  position: relative;
+}
+
+.ripple::after {
+  content: '';
+  @apply absolute inset-0 rounded-full bg-primary/30;
+  animation: ripple 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-200/50 dark:bg-gray-800/50 backdrop-blur-sm;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 dark:bg-gray-600 rounded-full 
+         hover:bg-gray-500 dark:hover:bg-gray-500 transition-colors;
+}
+
+/* Focus Styles */
+*:focus-visible {
+  @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-gray-50 dark:ring-offset-gray-900;
+}
+
+/* Glass Card Hover Effects */
+.glass-card {
+  @apply relative overflow-hidden;
+}
+
+.glass-card::before {
+  content: '';
+  @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 transition-opacity duration-300;
+}
+
+.glass-card:hover::before {
+  @apply opacity-100;
+}
+
+/* Gradient Border Animation */
+.gradient-border-animated {
+  @apply relative;
+  background: linear-gradient(var(--gradient-angle, 0deg), theme('colors.primary.light'), theme('colors.primary.dark'));
+  animation: gradient-rotate 5s linear infinite;
+}
+
+@keyframes gradient-rotate {
+  from { --gradient-angle: 0deg; }
+  to { --gradient-angle: 360deg; }
+}
